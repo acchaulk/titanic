@@ -1,5 +1,8 @@
 library(shiny)
 shinyServer(function(input, output) {
+  output$text1 <- renderText({ 
+    paste(input$name, input$title, input$sex, input$age, input$sibsp, input$parch, input$embarked, input$pclass,input$fare)
+  })
 })
 
 # 
