@@ -56,8 +56,7 @@ shinyUI(navbarPage("Welcome to the Titanic!",
                 sliderInput("fare", label = h4("Passenger Fare"), 
                             min = 0, max = 513, value = 50),
                 
-                submitButton("Submit!")
-                
+                submitButton("Submit")
      
               ),
               mainPanel(
