@@ -66,10 +66,12 @@ shinyUI(navbarPage("Welcome to the Titanic!",
             )
     ),
    navbarMenu("Visualizations",
-    tabPanel("Vis A",
-      mainPanel("Vis A")
+    tabPanel("Passenger Survival by Class",
+      mainPanel(
+        imageOutput("visA")
+      )
     ),
-    tabPanel("Vis B",
+    tabPanel("Lucky Names",
        mainPanel("Vis B")
     )
    )
