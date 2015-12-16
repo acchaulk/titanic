@@ -7,11 +7,15 @@ shinyUI(navbarPage("Welcome to the Titanic!",
               sidebarPanel(
                 
                 fluidRow(
-                  column(6, 
-                    textInput("name", label = h4("Name"), 
+                  column(4, 
+                    textInput("first", label = h4("First Name"), 
                               value = "")),
                   
-                  column(6, 
+                  column(4, 
+                         textInput("last", label = h4("Last Name"), 
+                                   value = "")),
+                  
+                  column(4, 
 #                         Title mapping:  {"Mr": 1, "Miss": 2, "Mrs": 3, "Master": 4, "Dr": 5, "Rev": 6, "Major": 7, "Col": 7, "Mlle": 8, "Mme": 8, "Don": 9, "
 #                            Lady": 10, "Countess": 10, "Jonkheer": 10, "Sir": 9, "Capt": 7, "Ms": 2}
                     selectInput("title", label = h4("Title"), 
@@ -45,8 +49,8 @@ shinyUI(navbarPage("Welcome to the Titanic!",
                 fluidRow(
                   column(6, 
                     radioButtons("embarked", label = h4("Point of Embarkation"), 
-                                 choices = list("Cherbourg" = "C", "Queenstown" = "Q", "Southampton" = "S"),
-                                 selected = "C")),
+                                 choices = list("Cherbourg" = 1, "Queenstown" = 2, "Southampton" = 0),
+                                 selected = 1)),
       
                   column(6, 
                     radioButtons("pclass", label = h4("Passenger Class"), 
@@ -56,7 +60,8 @@ shinyUI(navbarPage("Welcome to the Titanic!",
                 sliderInput("fare", label = h4("Passenger Fare"), 
                             min = 0, max = 513, value = 50),
                 
-                submitButton("Submit!")
+               # submitButton("Submit!")
+              actionButton("goButton", "Go")
                 
      
               ),
