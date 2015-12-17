@@ -97,7 +97,7 @@ shinyUI(navbarPage(
           "fare", label = h4("Passenger Fare"),
           min = 0, max = 513, value = 50
         ),
-        actionButton("goButton", "Go")
+        actionButton("submit", "Submit")
       ),
       mainPanel(h1(textOutput("survivedText")),
                 imageOutput("survivalImage"))

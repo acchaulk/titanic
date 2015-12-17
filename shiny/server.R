@@ -3,7 +3,7 @@ library(randomForest)
 library(party)
 
 shinyServer(function(input, output) {
-  rb <- reactive ({
+  calculateSurvival <- reactive ({
     titanic.passenger <-
       data.frame(
         Pclass = input$pclass,  Sex = input$sex, Age = input$age,
@@ -58,12 +58,12 @@ shinyServer(function(input, output) {
   })
   
   output$survivedText <- renderText({
-    if (input$goButton == 0) {
+    if (input$submit == 0) {
       return("")
     }
     
     isolate({
-      res <- rb()
+      res <- calculateSurvival()
       if (res == 0) {
         paste("You died!")
       }
@@ -76,7 +76,7 @@ shinyServer(function(input, output) {
   })
   
   output$survivalImage <- renderImage({
-    if (input$goButton == 0) {
+    if (input$submit == 0) {
       return(
         list(
           src = "titanic-default.jpg",
@@ -88,7 +88,7 @@ shinyServer(function(input, output) {
     }
     
     isolate({
-      res <- rb()
+      res <- calculateSurvival()
       if (res == 0) {
         return(
           list(
