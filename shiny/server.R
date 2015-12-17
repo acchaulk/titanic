@@ -188,4 +188,20 @@ shinyServer(function(input, output) {
         "Survived"
     )
   })
+  
+  output$luckyFamilies <- renderTable ({
+    
+    luckyFamilies <- read.csv("luckyFamilies.csv")
+    
+    lucky <- luckyFamilies[luckyFamilies$Survive.Rate==1, ]
+    
+  })
+  
+  output$unluckyFamilies <- renderTable ({
+    
+    luckyFamilies <- read.csv("luckyFamilies.csv")
+    
+    unlucky <- luckyFamilies[luckyFamilies$Survive.Rate==0, ]
+    
+  })
 })

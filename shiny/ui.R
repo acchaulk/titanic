@@ -114,6 +114,12 @@ shinyUI(navbarPage(
     tabPanel("Passenger Survival by Embarkation",
              mainPanel(plotOutput(
                "survivalByEmbarkation"
-             )))
-  )
-))
+             ))),
+    tabPanel("Lucky Families",
+             mainPanel(tableOutput("luckyFamilies"))),
+    
+    tabPanel("Unlucky Families",
+             mainPanel(tableOutput("unluckyFamilies"))
+
+  
+))))
