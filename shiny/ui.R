@@ -116,10 +116,11 @@ shinyUI(navbarPage(
                "survivalByEmbarkation"
              ))),
     tabPanel("Lucky Families",
-             mainPanel(tableOutput("luckyFamilies"))),
-    
-    tabPanel("Unlucky Families",
-             mainPanel(tableOutput("unluckyFamilies"))
-
-  
-))))
+             mainPanel(
+               fluidRow(column(6, h4("Lucky Families")),
+                        column(6, h4("Unlucky Families"))),
+               fluidRow(column(6, tableOutput("luckyFamilies")),
+                        column(6, tableOutput("unluckyFamilies")))
+             ))
+  )
+))
