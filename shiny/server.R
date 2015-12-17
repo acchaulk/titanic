@@ -14,7 +14,7 @@ shinyServer(function(input, output) {
 #                  "Animation"),
 #         Value = as.character(c(input$name, 
 #                                input$title,
-#                                input$age,
+#                                input$sex,
 #                                input$sibsp,
 #                                input$parch)), 
 #         stringsAsFactors=FALSE)
@@ -29,7 +29,7 @@ shinyServer(function(input, output) {
      
      titanic.passenger$FamilyID <- paste(as.character(titanic.passenger$FamilySize), input$last, sep = "")
      
-     titanic.passenger$Survived <- 1
+     titanic.passenger$Survived <- NA
      
      # build the cforest model
      
@@ -40,44 +40,42 @@ shinyServer(function(input, output) {
      
      titanic.passenger$Age <- as.numeric(titanic.passenger$Age)
      
-     titanic.passenger$Embarked <- as.factor(titanic.passenger$Embarked)
-     levels(titanic.passenger$Embarked) <- levels(titanic.im.train$Embarked)
+     titanic.passenger$Embarked <- factor(titanic.passenger$Embarked, levels = levels(titanic.im.train$Embarked))
+    # levels(titanic.passenger$Embarked) <- levels(titanic.im.train$Embarked)
      
      titanic.passenger$Fare <- as.numeric(titanic.passenger$Fare)
      
      titanic.passenger$Parch <- as.integer(titanic.passenger$Parch)
-     titanic.passenger$Pclass <- as.factor(titanic.passenger$Pclass)
-     levels(titanic.passenger$Pclass) <- levels(titanic.im.train$Pclass)
      
-     titanic.passenger$Sex <- as.factor(titanic.passenger$Sex)
-     levels(titanic.passenger$Sex) <- levels(titanic.im.train$Sex)
+     titanic.passenger$Pclass <- factor(titanic.passenger$Pclass, levels = levels(titanic.im.train$Pclass))
+     #levels(titanic.passenger$Pclass) <- levels(titanic.im.train$Pclass)
+     
+     titanic.passenger$Sex <- factor(titanic.passenger$Sex, levels = levels(titanic.im.train$Sex))
+    # levels(titanic.passenger$Sex) <- levels(titanic.im.train$Sex)
      
      titanic.passenger$SibSp <- as.integer(titanic.passenger$SibSp)
      
-     titanic.passenger$Survived <- as.factor(titanic.passenger$Survived)
-     levels(titanic.passenger$Survived) <- levels(titanic.im.train$Survived)
+     titanic.passenger$Survived <- factor(titanic.passenger$Survived, levels = levels(titanic.im.train$Survived))
+    # levels(titanic.passenger$Survived) <- levels(titanic.im.train$Survived)
      
      titanic.passenger$FamilySize <- as.integer(titanic.passenger$FamilySize)
      
-     titanic.passenger$Title <- as.factor(titanic.passenger$Title)
-     levels(titanic.passenger$Title) <- levels(titanic.im.train$Title)
+     titanic.passenger$Title <- factor(titanic.passenger$Title, levels = levels(titanic.im.train$Title))
+    # levels(titanic.passenger$Title) <- levels(titanic.im.train$Title)
      
-     titanic.passenger$FamilyID <- as.factor(titanic.passenger$FamilyID)
-     levels(titanic.passenger$FamilyID) <- levels(titanic.im.train$FamilyID)
+     titanic.passenger$FamilyID <- factor(titanic.passenger$FamilyID, levels = levels(titanic.im.train$FamilyID))
+     #levels(titanic.passenger$FamilyID) <- levels(titanic.im.train$FamilyID)
      
+   #  testData <- rbind(titanic.im.test[1:10, -c(2, 5, 7, 12)], titanic.passenger)
      
-     titanic.passenger.pred <- predict(titanic.im.train.cf, newdata=titanic.passenger, type = "response")
+    titanic.passenger.pred <- predict(titanic.im.train.cf, newdata=titanic.passenger, type = "response")
+      
+     return(titanic.passenger.pred)
 
-     return(as.character(titanic.passenger.pred))
     })
     
   output$text1 <- renderText({ 
     if(input$goButton) {
-    #paste(input$name, input$title, input$sex, input$age, input$sibsp, input$parch, input$embarked, input$pclass,input$fare)
-    
-    #titanic.passenger <- data.frame(Pclass = input$pclass, Name = input$name, Sex = input$sex, Age = input$age, 
-     #                               Sibsp = input$sibsp, Parch = input$parch, Ticket = 0, Fare = input$fare, Cabin = 0, Embarked = input$embarked)
-      
       var <- rb()
       # paste(var)
       if(var == 0) {
