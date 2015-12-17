@@ -66,15 +66,30 @@ shinyUI(navbarPage("Welcome to the Titanic!",
      
               ),
               mainPanel(
-                textOutput("text1")
+                h1(textOutput("text1"))
               )
             )
     ),
    navbarMenu("Visualizations",
     tabPanel("Passenger Survival by Class",
       mainPanel(
-        imageOutput("visA")
+        plotOutput("survivalByClass")
       )
+    ),
+    tabPanel("Passenger Survival by Gender",
+             mainPanel(
+               plotOutput("survivalByGender")
+             )
+    ),
+    tabPanel("Passenger Survival by Age",
+             mainPanel(
+               plotOutput("survivalByAge")
+             )
+    ),
+    tabPanel("Passenger Survival by Embarkation",
+             mainPanel(
+               plotOutput("survivalByEmbarkation")
+             )
     ),
     tabPanel("Lucky Names",
        mainPanel("Vis B")

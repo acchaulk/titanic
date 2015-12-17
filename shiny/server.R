@@ -68,27 +68,50 @@ shinyServer(function(input, output) {
      
      titanic.passenger.pred <- predict(titanic.im.train.cf, newdata=titanic.passenger, type = "response")
 
-      
      return(as.character(titanic.passenger.pred))
     })
+    
   output$text1 <- renderText({ 
     if(input$goButton) {
     #paste(input$name, input$title, input$sex, input$age, input$sibsp, input$parch, input$embarked, input$pclass,input$fare)
     
     #titanic.passenger <- data.frame(Pclass = input$pclass, Name = input$name, Sex = input$sex, Age = input$age, 
      #                               Sibsp = input$sibsp, Parch = input$parch, Ticket = 0, Fare = input$fare, Cabin = 0, Embarked = input$embarked)
-      paste(rb())
+      
+      var <- rb()
+      # paste(var)
+      if(var == 0) {
+        paste("dead")
+      }
+      
+      else if(var == 1) {
+        paste("survived")
+      }
+     
     }
     })
-  
-  output$visA <- renderImage({
-    # credit: https://www.kaggle.com/slothouber/titanic/traveling-alone-or-with-family
     
+  
+  output$survivalByClass <- renderPlot({
+    # credit: https://www.kaggle.com/slothouber/titanic/traveling-alone-or-with-family
     train <- read.csv("train.csv")
     test  <- read.csv("test.csv")
+
+    # Here we will plot the passenger survival by class
+    train$Survived <- factor(train$Survived, levels=c(1,0))
+    levels(train$Survived) <- c("Survived", "Died")
+    train$Pclass <- as.factor(train$Pclass)
+    levels(train$Pclass) <- c("1st Class", "2nd Class", "3rd Class")
     
-    # We can inspect the train data. The results of this are printed in the log tab below
-    summary(train)
+    mosaicplot(train$Pclass ~ train$Survived, main="Passenger Survival by Class",
+               color=c("#8dd3c7", "#fb8072"), shade=FALSE,  xlab="", ylab="",
+               off=c(0), cex.axis=1.4)
+  })
+  
+  output$survivalByGender <- renderPlot({
+    # credit: https://www.kaggle.com/slothouber/titanic/traveling-alone-or-with-family
+    train <- read.csv("train.csv")
+    test  <- read.csv("test.csv")
     
     # Here we will plot the passenger survival by class
     train$Survived <- factor(train$Survived, levels=c(1,0))
@@ -96,22 +119,41 @@ shinyServer(function(input, output) {
     train$Pclass <- as.factor(train$Pclass)
     levels(train$Pclass) <- c("1st Class", "2nd Class", "3rd Class")
     
-    
-    outfile <- tempfile(fileext='.png')
-    png(outfile, width=800, height=600)
-    mosaicplot(train$Pclass ~ train$Survived, main="Passenger Survival by Class",
-               color=c("#8dd3c7", "#fb8072"), shade=FALSE,  xlab="", ylab="",
-               off=c(0), cex.axis=1.4)
-    dev.off()
-    
-#     # Return a list containing the filename
-    list(src = outfile,
-         contentType = 'image/png',
-         width = 800,
-         height = 600,
-         alt = "This is alternate text")
-  }, deleteFile = TRUE)
+    mosaicplot(train$Sex ~ train$Survived, 
+               main="Passenger Fate by Gender", shade=FALSE, color=c("#8dd3c7", "#fb8072"),
+               xlab="Sex", ylab="Survived")
+  })
   
+  output$survivalByAge <- renderPlot ({
+    # https://github.com/wehrley/wehrley.github.io/blob/master/SOUPTONUTS.md
+    train <- read.csv("train.csv")
+    test  <- read.csv("test.csv")
+    
+    # Here we will plot the passenger survival by class
+    train$Survived <- factor(train$Survived, levels=c(1,0))
+    levels(train$Survived) <- c("Survived", "Died")
+    train$Pclass <- as.factor(train$Pclass)
+    levels(train$Pclass) <- c("1st Class", "2nd Class", "3rd Class")
+    
+    boxplot(train$Age ~ train$Survived, 
+            main="Passenger Fate by Age",
+            xlab="Survived", ylab="Age")
+  })
   
+  output$survivalByEmbarkation <- renderPlot ({
+    # https://github.com/wehrley/wehrley.github.io/blob/master/SOUPTONUTS.md
+    train <- read.csv("train.csv")
+    test  <- read.csv("test.csv")
+    
+    # Here we will plot the passenger survival by class
+    train$Survived <- factor(train$Survived, levels=c(1,0))
+    levels(train$Survived) <- c("Survived", "Died")
+    train$Pclass <- as.factor(train$Pclass)
+    levels(train$Pclass) <- c("1st Class", "2nd Class", "3rd Class")
+    
+    mosaicplot(train$Embarked ~ train$Survived, 
+               main="Passenger Fate by Port of Embarkation",
+               shade=FALSE, color=c("#8dd3c7", "#fb8072"), xlab="Embarked", ylab="Survived")
+  })
   
 })

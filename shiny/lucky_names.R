@@ -16,3 +16,5 @@ combi$Title <- sub(' ', '', combi$Title)
 combi$Surname <- sapply(combi$Name, FUN=function(x) {strsplit(x, split='[,.]')[[1]][1]})
 combi$Firstname <- sapply(combi$Name, FUN=function(x) {strsplit(x, split='[,.(]')[[1]][3]})
 # combi$Firstname <- sapply(combi$Firstname, FUN=function(x) {strsplit(x, split='[()]')[[1]][1]})
+sort(table(combi$Firstname),decreasing=TRUE)[1:10]
+
